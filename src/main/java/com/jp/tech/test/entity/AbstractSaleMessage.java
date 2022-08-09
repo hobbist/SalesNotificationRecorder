@@ -8,4 +8,28 @@ private Double saleValue; // this is in assuming the values will be accumulated 
         this.productType = productType;
         this.saleValue = saleValue;
     }
+
+    public String getProductType() {
+        return productType;
+    }
+
+    public void setProductType(String productType) {
+        this.productType = productType;
+    }
+
+    public Double getSaleValue() {
+        return saleValue;
+    }
+
+    public void setSaleValue(Double saleValue) {
+        this.saleValue = saleValue;
+    }
+
+    @Override
+    public String toString() {
+        return "AbstractSaleMessage{" +
+                "productType='" + productType + '\'' +
+                ", saleValue=" + saleValue +
+                '}';
+    }
 }

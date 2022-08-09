@@ -9,4 +9,19 @@ public class BatchSaleMessage extends AbstractSaleMessage {
         super(productType, saleValue);
         this.batchSize=batchSize;
     }
+
+    public int getBatchSize() {
+        return batchSize;
+    }
+
+    public void setBatchSize(int batchSize) {
+        this.batchSize = batchSize;
+    }
+
+    @Override
+    public String toString() {
+        return "BatchSaleMessage{" +
+                "batchSize=" + batchSize +
+                '}';
+    }
 }
