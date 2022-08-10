@@ -54,7 +54,7 @@ public class AppRunner {
             }
         }
         }else{
-         System.out.println("Usgae - need to provide either console/dummy to run the system");
+         System.out.println("Usage - need to provide either console/dummy to run the system");
             System.out.println("System properties set as -");
          System.out.println(appProps);
         }
