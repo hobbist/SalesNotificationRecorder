@@ -4,6 +4,9 @@ import com.jp.tech.test.entity.BatchSaleMessage;
 import com.jp.tech.test.entity.RecordedSale;
 import com.jp.tech.test.exceptions.ProcessorException;
 
+/**
+ * Batch Sale processor to calculate and process a batch with any size
+ */
 public class SaleProcessor extends AbstractProcessor<BatchSaleMessage> {
     private static SaleProcessor instance=null;
     private SaleProcessor(){

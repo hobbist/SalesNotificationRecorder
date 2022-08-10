@@ -3,7 +3,9 @@ package com.jp.tech.test.processor;
 import com.jp.tech.test.entity.AbstractSaleMessage;
 import com.jp.tech.test.entity.AdjustmentSaleMessage;
 import com.jp.tech.test.entity.BatchSaleMessage;
-
+/**
+ * Factory to get available processors for the messages based on types
+ */
 public class ProcessorFactory {
     public static Processor getProcessorforMessage(AbstractSaleMessage message){
         if(message instanceof AdjustmentSaleMessage) return AdjustmentProcessor.getInstance();

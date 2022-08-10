@@ -4,6 +4,9 @@ import com.jp.tech.test.db.SaleRecordDataAccessObject;
 import com.jp.tech.test.entity.AbstractSaleMessage;
 import com.jp.tech.test.exceptions.ProcessorException;
 
+/**
+ * This Abstrcact processor acts as logger as well as message processor.
+ */
 public abstract class AbstractProcessor<T extends AbstractSaleMessage> implements Processor<T>,LogProcessor<T> {
     private int checkPointCount;
     private int stopCount;
@@ -31,7 +34,8 @@ public abstract class AbstractProcessor<T extends AbstractSaleMessage> implement
 
     @Override
     public String diplayRecordsStatus() {
-        if(getSaleCount()%checkPointCount==0 && getSaleCount()!=stopCount){
+        String op="n";
+        if(getSaleCount()%checkPointCount==0 ){
             //print
             System.out.println("---------Display Check Point---------------");
             System.out.println();
@@ -41,7 +45,7 @@ public abstract class AbstractProcessor<T extends AbstractSaleMessage> implement
                 System.out.println("------------------------");
             });
             System.out.println();
-            return String.valueOf(checkPointCount);
+            op= String.valueOf(checkPointCount);
         }
         if(getSaleCount()==stopCount){
             System.out.println("---------Display Application Stop Point---------------");
@@ -51,12 +55,10 @@ public abstract class AbstractProcessor<T extends AbstractSaleMessage> implement
                 System.out.println("Adjustments - "+y.getAdjustmentRecords());
                 System.out.println("------------------------");
             });
-            return String.valueOf(stopCount);
-        } else {
-            System.out.println("-------------End of Transaction---------");
-            return "n";
+            op= String.valueOf(stopCount);
         }
-
+          System.out.println("-------------End of Transaction---------");
+         return op;
     }
 
     @Override

@@ -4,14 +4,16 @@ import com.jp.tech.test.recorder.SaleRecorder;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
 
 /**
  * Assumption - Stream of messages is replicated as a ArrayStream
- * it uses Recorder
+ * it uses Recorder to process messages.
+ * options to run the classes are console or dummy
+ * console-user can send all messages to the application
+ * dummy-DataGenerator mimics the data which can be used to generate the records
  */
 public class AppRunner {
     public static void main(String[] args){

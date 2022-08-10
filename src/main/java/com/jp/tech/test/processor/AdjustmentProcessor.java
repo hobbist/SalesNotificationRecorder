@@ -8,7 +8,9 @@ import com.jp.tech.test.exceptions.ProcessorException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
-
+/**
+ * Processor for Adjustment Records
+ */
 public class AdjustmentProcessor extends AbstractProcessor<AdjustmentSaleMessage> {
     private static AdjustmentProcessor instance;
     private AdjustmentProcessor(){

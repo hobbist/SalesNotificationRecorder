@@ -7,6 +7,9 @@ import com.jp.tech.test.exceptions.RecorderException;
 import com.jp.tech.test.parser.SalesMessageParser;
 import com.jp.tech.test.processor.ProcessorFactory;
 
+/**
+ * This class is the flow implementor for the template of execution defined in superclass
+ */
 public class SaleRecorder implements Recorder<String,AbstractSaleMessage> {
     SalesMessageParser parser=new SalesMessageParser();
     private Boolean receive=true;
