@@ -43,7 +43,8 @@ public class AdjustmentProcessor extends AbstractProcessor<AdjustmentSaleMessage
             s.setSaleValue(i.get());
             dao.updateRecordByProductType(s.getProductType(),s);
         }else{
-            System.out.println("No Sales records to be adjusted for given product type");
+            System.out.println("No Sales records to be adjusted for given product type "+message.getProductType());
+            System.out.println(message);
             this.updateSaleCount();
             return false;
         }

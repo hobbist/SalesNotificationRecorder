@@ -41,6 +41,7 @@ public abstract class AbstractProcessor<T extends AbstractSaleMessage> implement
             System.out.println();
             dao.getAllSaleRecords().forEach((x,y)-> {
                 System.out.println("ProductType - "+x);
+                System.out.println("Sales records - "+y.getSaleRecords());
                 System.out.println("total Sale - "+y.getSaleValue());
                 System.out.println("------------------------");
             });
