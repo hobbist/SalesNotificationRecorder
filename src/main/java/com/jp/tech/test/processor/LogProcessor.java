@@ -5,5 +5,6 @@ import com.jp.tech.test.exceptions.ProcessorException;
 
 public interface LogProcessor<T extends AbstractSaleMessage> {
     void log(T message) throws ProcessorException;
-    void diplayRecordsStatus();
+    String diplayRecordsStatus();
+    void diplayCurrentRecordsStatus(Boolean displayCurrent);
 }

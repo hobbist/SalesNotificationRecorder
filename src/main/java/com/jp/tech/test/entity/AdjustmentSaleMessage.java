@@ -15,9 +15,7 @@ public class AdjustmentSaleMessage extends AbstractSaleMessage {
 
     @Override
     public String toString() {
-        return "AdjustmentSaleMessage{" +
-                "operation=" + operation +
-                '}';
+        return "{" + "value=" + this.getSaleValue() +  ", operation=" + operation +'}';
     }
 
     public class Operation{
@@ -45,6 +43,10 @@ public class AdjustmentSaleMessage extends AbstractSaleMessage {
             }
         }
 
+        @Override
+        public String toString() {
+            return "Operation{" + "operationName='" + operationName + '\'' + '}';
+        }
     }
 }
 

@@ -13,7 +13,9 @@ public class InMemoryDataAccessObject extends SaleRecordDataAccessObject {
     }
 
     public static InMemoryDataAccessObject getInstance(){
-        if(instance==null) instance=new InMemoryDataAccessObject();
+        if(instance==null) {
+            instance=new InMemoryDataAccessObject();
+        }
         return instance;
     }
 

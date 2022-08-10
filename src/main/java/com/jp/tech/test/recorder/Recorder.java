@@ -8,16 +8,21 @@ import com.jp.tech.test.exceptions.RecorderException;
    Also it logs the statuses as per log processing
  */
 public interface Recorder<T,K extends SaleMessage> {
-
     default void recordIncomingMessage(T message){
         K salesMessage= null;
         try {
-            salesMessage = parseAndValidate(message);
-            logMessage(salesMessage);
-            processMessage(salesMessage);
-            displayStatusAfterMessage(salesMessage);
+            if (doReceive()) {
+                salesMessage = parseAndValidate(message);
+                logMessage(salesMessage);
+                processMessage(salesMessage);
+                displayStatusAfterMessage(salesMessage);
+                if(!doReceive()){
+                    System.out.println("System has received over its threshold stopping app now");
+                    System.exit(0);
+                }
+            }
         } catch (RecorderException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -25,5 +30,5 @@ public interface Recorder<T,K extends SaleMessage> {
     K parseAndValidate(T t) throws RecorderException;
     void logMessage(K message) throws RecorderException;
     void processMessage(K message) throws RecorderException;
-
+    Boolean doReceive();
 }

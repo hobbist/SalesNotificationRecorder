@@ -27,9 +27,6 @@ private Double saleValue; // this is in assuming the values will be accumulated 
 
     @Override
     public String toString() {
-        return "AbstractSaleMessage{" +
-                "productType='" + productType + '\'' +
-                ", saleValue=" + saleValue +
-                '}';
+        return "{" + "productType='" + productType + '\'' + ", saleValue=" + saleValue + '}';
     }
 }

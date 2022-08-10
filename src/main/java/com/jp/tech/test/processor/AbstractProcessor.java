@@ -5,9 +5,14 @@ import com.jp.tech.test.entity.AbstractSaleMessage;
 import com.jp.tech.test.exceptions.ProcessorException;
 
 public abstract class AbstractProcessor<T extends AbstractSaleMessage> implements Processor<T>,LogProcessor<T> {
+    private int checkPointCount;
+    private int stopCount;
+
     protected SaleRecordDataAccessObject dao;
     public AbstractProcessor(){
         dao=SaleRecordDataAccessObject.getInstance("inMemory");
+        checkPointCount=System.getProperty("checkPointCount")!=null?Integer.valueOf(System.getProperty("checkPointCount")):10;
+        stopCount=System.getProperty("stopCount")!=null?Integer.valueOf(System.getProperty("stopCount")):50;
     }
 
     protected void updateSaleCount(){
@@ -20,28 +25,51 @@ public abstract class AbstractProcessor<T extends AbstractSaleMessage> implement
 
     @Override
     public void log(T message) throws ProcessorException {
-        System.out.println("Logging the message"+ message);
+        System.out.println("-------------Start of Transaction---------");
+        System.out.println();
     }
 
     @Override
-    public void diplayRecordsStatus() {
-        if(getSaleCount()%10==0){
+    public String diplayRecordsStatus() {
+        if(getSaleCount()%checkPointCount==0 && getSaleCount()!=stopCount){
             //print
+            System.out.println("---------Display Check Point---------------");
+            System.out.println();
             dao.getAllSaleRecords().forEach((x,y)-> {
-                System.out.println("************************");
                 System.out.println("ProductType - "+x);
                 System.out.println("total Sale - "+y.getSaleValue());
-                System.out.println("************************");
+                System.out.println("------------------------");
             });
+            System.out.println();
+            return String.valueOf(checkPointCount);
         }
-        if(getSaleCount()==50){
+        if(getSaleCount()==stopCount){
+            System.out.println("---------Display Application Stop Point---------------");
             dao.getAllSaleRecords().forEach((x,y)-> {
-                System.out.println("************************");
                 System.out.println("ProductType - "+x);
+                System.out.println("total Sale - "+y.getSaleValue());
                 System.out.println("Adjustments - "+y.getAdjustmentRecords());
-                System.out.println("************************");
+                System.out.println("------------------------");
             });
-            stopProcessing();
+            return String.valueOf(stopCount);
+        } else {
+            System.out.println("-------------End of Transaction---------");
+            return "n";
+        }
+
+    }
+
+    @Override
+    public void diplayCurrentRecordsStatus(Boolean displayCurrent) {
+        if(displayCurrent) {
+            dao.getAllSaleRecords().forEach((x, y) -> {
+                System.out.println("------------------------");
+                System.out.println("ProductType - " + x);
+                System.out.println("Adjustments - " + y.getAdjustmentRecords());
+                System.out.println("Sales - " + y.getSaleRecords());
+                System.out.println("AggregatedValue - " + y.getSaleValue());
+                System.out.println("------------------------");
+            });
         }
     }
 

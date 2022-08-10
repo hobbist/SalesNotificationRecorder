@@ -5,6 +5,9 @@ import com.jp.tech.test.entity.BatchSaleMessage;
 import com.jp.tech.test.entity.RecordedSale;
 import com.jp.tech.test.exceptions.ProcessorException;
 
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
+
 
 public class AdjustmentProcessor extends AbstractProcessor<AdjustmentSaleMessage> {
     private static AdjustmentProcessor instance;
@@ -26,16 +29,21 @@ public class AdjustmentProcessor extends AbstractProcessor<AdjustmentSaleMessage
         RecordedSale s=dao.getRecordByProductType(message.getProductType());
         s.addAdjustmentRecords(message);
         if(s.getSaleRecords().size()!=0) {
-            s.getSaleRecords().stream().map(x -> {
-                if (x instanceof BatchSaleMessage) {
-                    message.getOperation().apply(x, message.getSaleValue());
+            AtomicReference<Double> i= new AtomicReference<>(0d);
+            s.setSaleRecords(s.getSaleRecords().stream().map(x -> {
+                    if(x instanceof BatchSaleMessage) {
+                        message.getOperation().apply(x, message.getSaleValue());
+                        i.set(i.get() + x.getSaleValue()*((BatchSaleMessage) x).getBatchSize());
+                        return x;
+                    }
                     return x;
-                }
-                return x;
-            });
+            }).collect(Collectors.toSet()));
+            s.setSaleValue(i.get());
             dao.updateRecordByProductType(s.getProductType(),s);
         }else{
             System.out.println("No Sales records to be adjusted for given product type");
+            this.updateSaleCount();
+            return false;
         }
         this.updateSaleCount();
         return true;

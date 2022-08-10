@@ -1,7 +1,7 @@
 package com.jp.tech.test.entity;
 
 public class BatchSaleMessage extends AbstractSaleMessage {
-    int batchSize;
+    int batchSize=1;
     public BatchSaleMessage(String productType, Double saleValue) {
         super(productType, saleValue);
     }
@@ -20,8 +20,6 @@ public class BatchSaleMessage extends AbstractSaleMessage {
 
     @Override
     public String toString() {
-        return "BatchSaleMessage{" +
-                "batchSize=" + batchSize +
-                '}';
+        return "{" + super.toString() + ", batchSize=" + batchSize + '}';
     }
 }

@@ -9,10 +9,14 @@ import com.jp.tech.test.processor.ProcessorFactory;
 
 public class SaleRecorder implements Recorder<String,AbstractSaleMessage> {
     SalesMessageParser parser=new SalesMessageParser();
-
+    private Boolean receive=true;
     @Override
     public void displayStatusAfterMessage(AbstractSaleMessage message) {
-        ProcessorFactory.getLogProcessorForMessage(message).diplayRecordsStatus();
+        String status=ProcessorFactory.getLogProcessorForMessage(message).diplayRecordsStatus();
+        String stopCount=System.getProperty("stopCount");
+        if(status.equalsIgnoreCase(stopCount)) {
+            receive=!receive;
+        }
     }
 
     @Override
@@ -20,7 +24,6 @@ public class SaleRecorder implements Recorder<String,AbstractSaleMessage> {
         try {
             return parser.parse(s);
         } catch (ParserException e) {
-            e.printStackTrace();
             throw new RecorderException(e.getMessage());
         }
     }
@@ -30,7 +33,6 @@ public class SaleRecorder implements Recorder<String,AbstractSaleMessage> {
         try {
             ProcessorFactory.getLogProcessorForMessage(message).log(message);
         } catch (ProcessorException e) {
-            e.printStackTrace();
             throw new RecorderException(e.getMessage());
         }
     }
@@ -40,8 +42,12 @@ public class SaleRecorder implements Recorder<String,AbstractSaleMessage> {
         try {
             ProcessorFactory.getProcessorforMessage(message).process(message);
         } catch (ProcessorException e) {
-            e.printStackTrace();
             throw new RecorderException(e.getMessage());
         }
+    }
+
+    @Override
+    public Boolean doReceive() {
+        return receive;
     }
 }
